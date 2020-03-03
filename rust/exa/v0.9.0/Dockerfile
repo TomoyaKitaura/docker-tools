@@ -13,4 +13,4 @@ COPY --from=builder /usr/local/cargo/bin/exa /usr/local/bin/exa
 
 WORKDIR /work
 
-CMD ["exa"]
+ENTRYPOINT ["exa"]
