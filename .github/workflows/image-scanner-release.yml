@@ -1,9 +1,9 @@
-name: GitHub Container Registry Test
+name: Release ImageScanner Container Registry 
 
 on:
   push:
-    branches:
-      - master
+    tags:
+      - image-scanner-v[1-9].[0-9]+.[0-9]+
 
 env:
   ImagePath:                    "ci-tools"
@@ -21,5 +21,5 @@ jobs:
         run: |
           echo ${{ secrets.CR_PAT }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
           docker pull ghcr.io/$RepositoryName/$ImageName:latest
-          docker build $ImagePath/$ImageName --tag ghcr.io/$RepositoryName/$ImageName:$GITHUB_SHA --cache-from ghcr.io/$RepositoryName/$ImageName:latest
-          docker push ghcr.io/$RepositoryName/$ImageName:$GITHUB_SHA
+          docker build $ImagePath/$ImageName --tag ghcr.io/$RepositoryName/$ImageName:$GITHUB_REF --cache-from ghcr.io/$RepositoryName/$ImageName:latest
+          docker push ghcr.io/$RepositoryName/$ImageName:$GITHUB_REF
