@@ -19,6 +19,7 @@ jobs:
       - name: Build and Ship
         run: |
           set +x
-          echo ${{ secrets.CR_PAT }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin \
-          docker build --tag ghcr.io/$GITHUB_ACTOR/$ImageName:$GITHUB_SHA $ImagePath/$Image-scanner \
+          echo ${{ secrets.CR_PAT }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
+          docker pull ghcr.io/$GITHUB_ACTOR/$ImageName:latest
+          docker build $ImagePath/$Image-scanner --tag ghcr.io/$GITHUB_ACTOR/$ImageName:$GITHUB_SHA --cache-from ghcr.io/g$GITHUB_ACTOR/$ImageName:latest
           docker push ghcr.io/$GITHUB_ACTOR/ImageName:$GITHUB_SHA
