@@ -1,0 +1,24 @@
+name: GitHub Container Registry Test
+
+on:
+  push:
+    branches:
+      - master
+
+env:
+  ImagePath:                    "ci-tools"
+  ImageName:                    "image-scanner"
+
+jobs:
+  BuildAndShip:
+    name: GitHub Container Regist
+    runs-on: ubuntu-18.04
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: Build and Ship
+        run: |
+          echo ${{ secrets.CR_PAT }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin \
+          docker pull ghcr.io/$GITHUB_ACTOR/$ImageName:latest \
+          docker build $ImagePath/$Image-scanner --tag ghcr.io/$GITHUB_ACTOR/$ImageName:$GITHUB_SHA --cache-from ghcr.io/g$GITHUB_ACTOR/$ImageName:latest \
+          docker push ghcr.io/$GITHUB_ACTOR/ImageName:$GITHUB_SHA
