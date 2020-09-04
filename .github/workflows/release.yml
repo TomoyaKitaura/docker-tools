@@ -21,5 +21,5 @@ jobs:
         run: |
           echo ${{ secrets.CR_PAT }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
           docker pull ghcr.io/$RepositoryName/$ImageName:latest
-          docker build $ImagePath/$Image-scanner --tag ghcr.io/$RepositoryName/$ImageName:$GITHUB_SHA --cache-from ghcr.io/$RepositoryName/$ImageName:latest
+          docker build $ImagePath/$ImageName --tag ghcr.io/$RepositoryName/$ImageName:$GITHUB_SHA --cache-from ghcr.io/$RepositoryName/$ImageName:latest
           docker push ghcr.io/$RepositoryName/$ImageName:$GITHUB_SHA
